@@ -9,6 +9,7 @@ public class MainMenuView : UiPanelInAndOut
     [SerializeField] private GameEvent ShowLevelCompleteView;
 
     [SerializeField] private MainMenuState MainMenuState;
+
     private void OnEnable()
     {
         PlayButton.onClick.AddListener(OpenViewButtonPressed);

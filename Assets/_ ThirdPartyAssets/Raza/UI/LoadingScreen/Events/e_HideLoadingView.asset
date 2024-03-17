@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2f003bdd980410b90f8490c3531181, type: 3}
   m_Name: e_HideLoadingView
   m_EditorClassIdentifier: 
-  DeveloperDescription: 

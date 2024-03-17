@@ -22,6 +22,10 @@ namespace ProjectCore.Application
         [SerializeField] private Transition MainMenuTransition;
         [SerializeField] private GameEvent GotoMainMenu;
 
+        [Header("Spin Wheel")]
+        [SerializeField] private Transition SpinWheelTransition;
+        [SerializeField] private GameEvent GotoSpinWheel;
+
         [Header("Game")]
         [SerializeField] private Transition GameStateTransition;
         [SerializeField] private NormalGameState NormalGameState;
@@ -145,6 +149,12 @@ namespace ProjectCore.Application
         {
             Debug.LogError($"OnGotoMainMenu Called");
             StateMachine.Transition(MainMenuTransition);
+        }
+
+        private void OnGotoSpinWheel()
+        {
+            Debug.LogError($"OnGotoSpinWheel Called");
+            StateMachine.Transition(SpinWheelTransition);
         }
 
         public void OnGotoGame()
