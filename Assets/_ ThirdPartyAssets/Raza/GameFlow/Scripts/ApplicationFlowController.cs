@@ -140,6 +140,7 @@ namespace ProjectCore.Application
         {
             GotoGame.Handler += OnGotoGame;
             GotoMainMenu.Handler += OnGotoMainMenu;
+            GotoSpinWheel.Handler += OnGotoSpinWheel;
 
             OpenViewClose.Handler += OnOpenViewClsoe;
             return;

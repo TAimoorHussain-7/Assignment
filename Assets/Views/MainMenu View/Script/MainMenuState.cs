@@ -9,7 +9,7 @@ public class MainMenuState : State
 {
     [SerializeField] private string PrefabName;
 
-    [SerializeField] private GameEvent GotoGameEvent;
+    [SerializeField] private GameEvent GotoGameEvent, GotoSpinEvent;
     [NonSerialized] private MainMenuView _mainMenuView;
     public override IEnumerator Execute()
     {
@@ -29,5 +29,10 @@ public class MainMenuState : State
     public void GotoGame()
     {
         GotoGameEvent.Invoke();
+    }
+
+    public void GotoSpinWheel()
+    {
+        GotoSpinEvent.Invoke();
     }
 }

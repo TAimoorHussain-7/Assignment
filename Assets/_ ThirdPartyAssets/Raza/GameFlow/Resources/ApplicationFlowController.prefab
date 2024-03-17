@@ -48,6 +48,8 @@ MonoBehaviour:
   StateMachine: {fileID: 11400000, guid: c86b329c06f2d58459c44e4e04dbd022, type: 2}
   MainMenuTransition: {fileID: 11400000, guid: c1b2972c13d658d4a8685413751cf06d, type: 2}
   GotoMainMenu: {fileID: 11400000, guid: 54e79aba91444f14aa1e6e6c4da644b0, type: 2}
+  SpinWheelTransition: {fileID: 11400000, guid: 7050c9fa86ce8404f860eabc43d31ea9, type: 2}
+  GotoSpinWheel: {fileID: 11400000, guid: d5f4c44f37f963e41869670e9950c2b7, type: 2}
   GameStateTransition: {fileID: 11400000, guid: 295249d9c08336d4297d4b814212a4a5, type: 2}
   NormalGameState: {fileID: 11400000, guid: dc4a47176d648b046b10a395cdad1a9d, type: 2}
   GameLevel: {fileID: 11400000, guid: 592dc6a83eefa3f419642ff59c907124, type: 2}
