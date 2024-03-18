@@ -6,14 +6,17 @@ public class SpinController : MonoBehaviour
 {
     [SerializeField] string PrefabName;
     [SerializeField] Transform RewardImageParent;
-    [SerializeField] int NumberOfSegments;
     [SerializeField] SpinDataSO SpData;
+
+    int NumberOfSegments;
 
     [Button]
     private void OnEnable()
     {
         SpinWheelJson spinWheelData = new SpinWheelJson();
-        spinWheelData.ParseJsonFile(Resources.Load<TextAsset>("data"),SpData.SpData);
+        SpData.SpData = spinWheelData.ParseJsonFile(Resources.Load<TextAsset>("data"));
+        NumberOfSegments = SpData.SpData.rewards.Length;
+        GenerateRewardImages();
     }
 
 
@@ -24,7 +27,7 @@ public class SpinController : MonoBehaviour
         {
             RewardImageMaker rImg = Instantiate(Resources.Load<RewardImageMaker>(PrefabName), RewardImageParent);
             rImg.transform.RotateAround(RewardImageParent.position, Vector3.forward, degreePerSegment * i);
-            rImg.SetSegments(NumberOfSegments);
+            rImg.SetSegments(NumberOfSegments, SpData.SpData.rewards[i].multiplier,SpData.SpData.rewards[i].color);
         }
     }
 
