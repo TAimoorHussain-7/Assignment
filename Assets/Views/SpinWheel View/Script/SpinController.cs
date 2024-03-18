@@ -1,10 +1,14 @@
+using ProjectCore.Events;
 using ProjectCore.Variables;
 using UnityEngine;
+using TMPro;
 
 public class SpinController : SpinWheel
 {
     [SerializeField] string PrefabName;
     [SerializeField] Transform RewardImageParent;
+    [SerializeField] GameEvent SpinRewardEvent;
+    [SerializeField] TextMeshProUGUI SpinRewardText, SpintMultiplierText;
 
     int NumberOfSegments;
 
@@ -14,6 +18,7 @@ public class SpinController : SpinWheel
         SpData.SpData = spinWheelData.ParseJsonFile(Resources.Load<TextAsset>("data"));
         NumberOfSegments = SpData.SpData.rewards.Length;
         GenerateRewardImages();
+        SpinRewardEvent.Handler += CalculateReward;
     }
 
 
@@ -28,4 +33,11 @@ public class SpinController : SpinWheel
         }
     }
 
+    private void CalculateReward()
+    {
+        Debug.Log("Here");
+        int rewardAmount = SpData.SpData.coins * RewardMultiplier;
+        SpintMultiplierText.text = "X" + RewardMultiplier.ToString();
+        SpinRewardText.text = rewardAmount.ToString();
+    }
 }

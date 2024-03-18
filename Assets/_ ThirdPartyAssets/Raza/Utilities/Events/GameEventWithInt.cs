@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ProjectCore.Events
@@ -8,6 +9,11 @@ namespace ProjectCore.Events
         public override void Raise(int t)
         {
             base.Raise(t);
+        }
+
+        internal void Invoke(int multiplier)
+        {
+            throw new NotImplementedException();
         }
     }
 }

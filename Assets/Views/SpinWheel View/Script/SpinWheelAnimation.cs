@@ -1,4 +1,5 @@
 using DG.Tweening;
+using ProjectCore.Events;
 using ProjectCore.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class SpinWheelAnimation : SpinWheel
 {
     [SerializeField] Button SpinButton;
     [SerializeField] Transform wheelTransform;
+    [SerializeField] GameObject RewardPanel;
+    [SerializeField] GameEvent SpinRewardEvent;
     public float minSpinTime = 1f;
     public float maxSpinTime = 3f;
     public float SpinSpeed = 1f;
@@ -29,7 +32,6 @@ public class SpinWheelAnimation : SpinWheel
         if (!IsSpining)
         {
             IsSpining = true;
-            SpinButton.enabled = false;
 
             float targetDirection = clockwise ? 360f : -360f;
             float totalProbability = 0f;
@@ -53,7 +55,9 @@ public class SpinWheelAnimation : SpinWheel
                     float spinTime = Random.Range(minSpinTime, maxSpinTime);
 
                     wheelTransform.DORotate(new Vector3(0f, 0f, targetRotation), spinTime, RotateMode.FastBeyond360)
-                                 .OnComplete(() => Debug.Log("Spin completed at multiplier: " + SpData.SpData.rewards[i].multiplier));
+                                 .OnComplete(() => {
+                                     RewardMultiplier = SpData.SpData.rewards[i].multiplier;
+                                     SpinRewardEvent.Invoke(); });
                     break;
                 }
             }
