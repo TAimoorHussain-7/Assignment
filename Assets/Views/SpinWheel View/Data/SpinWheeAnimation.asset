@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927f173aa9b5bc8439e466ec2127eb45, type: 3}
   m_Name: SpinWheeAnimation
   m_EditorClassIdentifier: 
+  minSpinTime: 5
+  maxSpinTime: 10
+  SpinSpeed: 5
+  clockwise: 1

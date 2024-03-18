@@ -1221,7 +1221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8522160232240002588
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1453,12 +1453,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7863755706af7664087232eb5438452b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
   PrefabName: rImage
   RewardImageParent: {fileID: 6640184230283435731}
   SpinRewardEvent: {fileID: 11400000, guid: 9c2bfb0ae1379ea40b94df90ce1e4f38, type: 2}
+  ChangePositionEvent: {fileID: 11400000, guid: 732f53c1c6afd7e468d9ed7a490fe20c, type: 2}
+  ShuffleEvent: {fileID: 11400000, guid: 4442c72358e3c6f4495529cc743cfd4f, type: 2}
   SpinRewardText: {fileID: 5894469496690897849}
   SpintMultiplierText: {fileID: 9191344533978633886}
+  ShuffleDelay: 0.05
+  SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
 --- !u!114 &2072199081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,16 +1474,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c955e86301161c842b791bae68f4e2d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
   SpinButton: {fileID: 5536746808119200955}
   wheelTransform: {fileID: 6640184230283435731}
-  RewardPanel: {fileID: 0}
+  wheelParent: {fileID: 911757122192683731}
+  RewardPanel: {fileID: 3954817779707176114}
   SpinRewardEvent: {fileID: 11400000, guid: 9c2bfb0ae1379ea40b94df90ce1e4f38, type: 2}
+  ChangePositionEvent: {fileID: 11400000, guid: 732f53c1c6afd7e468d9ed7a490fe20c, type: 2}
+  ShuffleEvent: {fileID: 11400000, guid: 4442c72358e3c6f4495529cc743cfd4f, type: 2}
   AnimationDuration: 1
-  minSpinTime: 5
-  maxSpinTime: 10
-  SpinSpeed: 10
-  clockwise: 1
+  SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
+  SpinAnimation: {fileID: 11400000, guid: f32c4dcc248af2b44921b5981ed674bb, type: 2}
 --- !u!1 &6278512000758049274
 GameObject:
   m_ObjectHideFlags: 0

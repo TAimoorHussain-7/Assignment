@@ -383,40 +383,8 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 359125538, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: ShuffleDelay
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 359125538, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: ShuffleEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 4442c72358e3c6f4495529cc743cfd4f, type: 2}
-    - target: {fileID: 359125538, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: ChangePositionEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 732f53c1c6afd7e468d9ed7a490fe20c, type: 2}
     - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: RewardPanel
-      value: 
-      objectReference: {fileID: 2114077713}
-    - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: wheelParent
-      value: 
-      objectReference: {fileID: 2114077714}
-    - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: ShuffleEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 4442c72358e3c6f4495529cc743cfd4f, type: 2}
-    - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: SpinAnimation
-      value: 
-      objectReference: {fileID: 11400000, guid: f32c4dcc248af2b44921b5981ed674bb, type: 2}
-    - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: ChangePositionEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 732f53c1c6afd7e468d9ed7a490fe20c, type: 2}
-    - target: {fileID: 3954817779707176114, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: m_IsActive
+      propertyPath: spinTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4030740918383676048, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
@@ -507,15 +475,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpinWheelView
       objectReference: {fileID: 0}
+    - target: {fileID: 4684982505029806929, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
---- !u!1 &2114077713 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3954817779707176114, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-  m_PrefabInstance: {fileID: 2114077712}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &2114077714 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 911757122192683731, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-  m_PrefabInstance: {fileID: 2114077712}
-  m_PrefabAsset: {fileID: 0}

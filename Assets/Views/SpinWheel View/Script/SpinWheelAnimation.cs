@@ -19,7 +19,8 @@ public class SpinWheelAnimation : SpinWheel
     [SerializeField] SpinAnimtionSo SpinAnimation;
 
     private Tween wheelTween;
-    private Coroutine ResetRotine;
+    private Coroutine ResetRotine; 
+    private int SpinDirection;
 
     private void OnEnable()
     {
@@ -46,15 +47,17 @@ public class SpinWheelAnimation : SpinWheel
             if (SpinAnimation.clockwise)
             {
                 targetRotation = NormalizeAngleClockwise(targetRotation);
-            }else if (!SpinAnimation.clockwise)
+                SpinDirection = 1;
+            }
+            else if (!SpinAnimation.clockwise)
             {
                 targetRotation = NormalizeAngleCounterclockwise(targetRotation);
+                SpinDirection = -1;
             }
+            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime)/ SpinAnimation.SpinSpeed;
+            
 
-            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
-
-            wheelTransform.DORotateQuaternion(Quaternion.Euler(new Vector3(0f, 0f, targetRotation)), spinTime)
-                         .OnComplete(() =>
+            wheelTransform.DORotate(new Vector3(0f, 0f, targetRotation*SpinDirection), spinTime, RotateMode.LocalAxisAdd).OnComplete(() =>
                          {
                              RewardMultiplier = SpData.SpData.rewards[randomInd].multiplier;
                              SpinRewardEvent.Invoke();
