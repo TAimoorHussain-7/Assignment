@@ -9,8 +9,10 @@ public class SpinWheelAnimation : SpinWheel
 {
     [SerializeField] Button SpinButton;
     [SerializeField] Transform wheelTransform;
+    [SerializeField] Transform wheelParent;
     [SerializeField] GameObject RewardPanel;
     [SerializeField] GameEvent SpinRewardEvent;
+    [SerializeField] float AnimationDuration = 1;
     public float minSpinTime = 1f;
     public float maxSpinTime = 3f;
     public float SpinSpeed = 1f;
@@ -32,7 +34,7 @@ public class SpinWheelAnimation : SpinWheel
         if (!IsSpining)
         {
             IsSpining = true;
-
+            SpinButton.interactable = false;
             float targetDirection = clockwise ? 360f : -360f;
             float totalProbability = 0f;
 
@@ -61,6 +63,26 @@ public class SpinWheelAnimation : SpinWheel
                     break;
                 }
             }
+        }
+    }
+
+    private void ChangePosition()
+    {
+        if (!IsSpining)
+        {
+            wheelTransform.DOScale(Vector3.one, AnimationDuration);
+
+            wheelTransform.DOMoveY(165, AnimationDuration).OnComplete(() => {
+                SpinButton.interactable = true;
+            }) ;
+        }
+        else
+        {
+            wheelTransform.DOScale(Vector3.one*0.7f, AnimationDuration);
+
+            wheelTransform.DOMoveY(650, AnimationDuration).OnComplete(() => {
+                
+            });
         }
     }
 }

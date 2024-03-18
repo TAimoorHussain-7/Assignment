@@ -990,7 +990,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 931937694394933707}
   m_OnClick:
     m_PersistentCalls:
@@ -1221,7 +1221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8522160232240002588
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1456,7 +1456,7 @@ MonoBehaviour:
   SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
   PrefabName: rImage
   RewardImageParent: {fileID: 6640184230283435731}
-  SpinRewardEvent: {fileID: 11400000, guid: 3485a562735387247afb374403dce1e0, type: 2}
+  SpinRewardEvent: {fileID: 11400000, guid: 9c2bfb0ae1379ea40b94df90ce1e4f38, type: 2}
   SpinRewardText: {fileID: 5894469496690897849}
   SpintMultiplierText: {fileID: 9191344533978633886}
 --- !u!114 &2072199081
@@ -1474,7 +1474,9 @@ MonoBehaviour:
   SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
   SpinButton: {fileID: 5536746808119200955}
   wheelTransform: {fileID: 6640184230283435731}
-  SpinRewardEvent: {fileID: 11400000, guid: 3485a562735387247afb374403dce1e0, type: 2}
+  RewardPanel: {fileID: 0}
+  SpinRewardEvent: {fileID: 11400000, guid: 9c2bfb0ae1379ea40b94df90ce1e4f38, type: 2}
+  AnimationDuration: 1
   minSpinTime: 5
   maxSpinTime: 10
   SpinSpeed: 10
