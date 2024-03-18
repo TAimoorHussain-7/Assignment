@@ -80,7 +80,7 @@ MonoBehaviour:
   m_ImageType: 3
   m_StrokeWidth: -30
   m_FalloffDistance: 0.5
-  m_OutlineWidth: 10
+  m_OutlineWidth: 0
   m_OutlineColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.5882353}
   m_ShapeRotation: 0
   m_ConstrainRotation: 1
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_ImageType: 3
   m_StrokeWidth: -30
   m_FalloffDistance: 0.5
-  m_OutlineWidth: 10
+  m_OutlineWidth: 0
   m_OutlineColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.5882353}
   m_ShapeRotation: 0
   m_ConstrainRotation: 1
@@ -283,7 +283,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: 230}
   m_SizeDelta: {x: 74, y: 79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4611987720681784211
@@ -359,7 +359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 300}
+  m_AnchoredPosition: {x: 0, y: 320}
   m_SizeDelta: {x: 145, y: 73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7866736846938650895

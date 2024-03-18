@@ -4,6 +4,8 @@ using ProjectCore.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class SpinWheelAnimation : SpinWheel
 {
@@ -11,21 +13,24 @@ public class SpinWheelAnimation : SpinWheel
     [SerializeField] Transform wheelTransform;
     [SerializeField] Transform wheelParent;
     [SerializeField] GameObject RewardPanel;
-    [SerializeField] GameEvent SpinRewardEvent;
+    [SerializeField] GameEvent SpinRewardEvent, ChangePositionEvent, ShuffleEvent;
     [SerializeField] float AnimationDuration = 1;
-    public float minSpinTime = 1f;
-    public float maxSpinTime = 3f;
-    public float SpinSpeed = 1f;
-    public bool clockwise = true;
+    [SerializeField] SpinDataSO SpData;
+    [SerializeField] SpinAnimtionSo SpinAnimation;
+
+    private Tween wheelTween;
+    private Coroutine ResetRotine;
 
     private void OnEnable()
     {
         SpinButton.onClick.AddListener(OnSpinWheel);
+        ChangePositionEvent.Handler += ChangePosition;
     }
 
     private void OnDisable()
     {
         SpinButton.onClick.RemoveListener(OnSpinWheel);
+        ChangePositionEvent.Handler -= ChangePosition;
     }
 
     [Button]
@@ -35,54 +40,129 @@ public class SpinWheelAnimation : SpinWheel
         {
             IsSpining = true;
             SpinButton.interactable = false;
-            float targetDirection = clockwise ? 360f : -360f;
-            float totalProbability = 0f;
+            int randomInd = SelectRandomIndex();
+            float targetRotation =360 - (degreePerSegment * randomInd);
 
-            foreach (RewardData reward in SpData.SpData.rewards)
+            if (SpinAnimation.clockwise)
             {
-                totalProbability += reward.probability;
+                targetRotation = NormalizeAngleClockwise(targetRotation);
+            }else if (!SpinAnimation.clockwise)
+            {
+                targetRotation = NormalizeAngleCounterclockwise(targetRotation);
             }
 
-            float randomValue = Random.Range(0f, totalProbability);
+            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
 
-            float currentProbability = 0f;
-            for (int i = 0; i < SpData.SpData.rewards.Length; i++)
+            wheelTransform.DORotateQuaternion(Quaternion.Euler(new Vector3(0f, 0f, targetRotation)), spinTime)
+                         .OnComplete(() =>
+                         {
+                             RewardMultiplier = SpData.SpData.rewards[randomInd].multiplier;
+                             SpinRewardEvent.Invoke();
+                         });
+        }
+    }
+    float NormalizeAngleClockwise(float angle)
+    {
+        while (angle > wheelTransform.rotation.z)
+        {
+            angle -= 360;
+        }
+        return angle;
+    }
+
+    float NormalizeAngleCounterclockwise(float angle)
+    {
+        while (angle < wheelTransform.rotation.z)
+        {
+            angle += 360;
+        }
+        return angle;
+    }
+
+    public int SelectRandomIndex()
+    {
+        List<float> probabilities = new List<float>();
+
+        new List<float>();
+        foreach (RewardData rD in SpData.SpData.rewards)
+        {
+            probabilities.Add(rD.probability);
+        }
+
+        List<float> normalizedProbabilities = NormalizeProbabilities(probabilities);
+
+        float randomValue = Random.value;
+        float cumProbability = 0f;
+
+        for (int i = 0; i < normalizedProbabilities.Count; i++)
+        {
+            cumProbability += normalizedProbabilities[i];
+            if (randomValue <= cumProbability)
             {
-                currentProbability += SpData.SpData.rewards[i].probability;
-
-                if (randomValue <= currentProbability)
-                {
-                    float targetRotation = targetDirection * (1f - (float)i / SpData.SpData.rewards.Length);
-                    targetRotation *= SpinSpeed;
-                    float spinTime = Random.Range(minSpinTime, maxSpinTime);
-
-                    wheelTransform.DORotate(new Vector3(0f, 0f, targetRotation), spinTime, RotateMode.FastBeyond360)
-                                 .OnComplete(() => {
-                                     RewardMultiplier = SpData.SpData.rewards[i].multiplier;
-                                     SpinRewardEvent.Invoke(); });
-                    break;
-                }
+                return i;
             }
         }
+
+        return -1;
+    }
+
+    private List<float> NormalizeProbabilities(List<float> probabilities)
+    {
+        float sum = 0f;
+        foreach (float probability in probabilities)
+        {
+            sum += probability;
+        }
+
+        List<float> normalizedProbabilities = new List<float>();
+        foreach (float probability in probabilities)
+        {
+            normalizedProbabilities.Add(probability / sum);
+        }
+
+        return normalizedProbabilities;
     }
 
     private void ChangePosition()
     {
         if (!IsSpining)
         {
-            wheelTransform.DOScale(Vector3.one, AnimationDuration);
+            RewardPanel.transform.DOLocalMoveY(-320, 0.01f).OnComplete(() =>
+            {
+                RewardPanel.SetActive(false);
+            });
+            wheelParent.DOScale(Vector3.one, AnimationDuration);
 
-            wheelTransform.DOMoveY(165, AnimationDuration).OnComplete(() => {
+            wheelTween = wheelParent.DOLocalMoveY(165, AnimationDuration).OnComplete(() =>
+            {
                 SpinButton.interactable = true;
-            }) ;
+            });
+            ShuffleEvent.Invoke();
         }
         else
         {
-            wheelTransform.DOScale(Vector3.one*0.7f, AnimationDuration);
-
-            wheelTransform.DOMoveY(650, AnimationDuration).OnComplete(() => {
-                
+            wheelParent.DOScale(Vector3.one * 0.7f, AnimationDuration);
+            wheelTween = wheelParent.DOLocalMoveY(650, AnimationDuration).OnUpdate(() =>
+            {
+                float progress = wheelTween.ElapsedPercentage();
+                if (progress > 0.9f)
+                {
+                    ResetRotine = StartCoroutine(ResetWheel());
+                }
             });
+            RewardPanel.SetActive(true);
+            RewardPanel.transform.DOLocalMoveY(-125, AnimationDuration);
+        }
+    }
+
+    private IEnumerator ResetWheel()
+    {
+        yield return new WaitForSeconds(5);
+        IsSpining = false;
+        ChangePosition();
+        if (ResetRotine != null)
+        {
+            StopCoroutine(ResetRotine);
         }
     }
 }
