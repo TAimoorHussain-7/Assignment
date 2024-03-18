@@ -1,16 +1,13 @@
 using ProjectCore.Variables;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class SpinController : MonoBehaviour
+public class SpinController : SpinWheel
 {
     [SerializeField] string PrefabName;
     [SerializeField] Transform RewardImageParent;
-    [SerializeField] SpinDataSO SpData;
 
     int NumberOfSegments;
 
-    [Button]
     private void OnEnable()
     {
         SpinWheelJson spinWheelData = new SpinWheelJson();

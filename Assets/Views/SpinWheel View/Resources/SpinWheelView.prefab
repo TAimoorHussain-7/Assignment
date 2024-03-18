@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 4289619305666352062}
   - component: {fileID: 7895421534375651614}
   - component: {fileID: 359125538}
+  - component: {fileID: 2072199081}
   m_Layer: 5
   m_Name: SpinWheelView
   m_TagString: Untagged
@@ -720,8 +721,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7863755706af7664087232eb5438452b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
   PrefabName: rImage
   RewardImageParent: {fileID: 6640184230283435731}
+--- !u!114 &2072199081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684982505029806929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c955e86301161c842b791bae68f4e2d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpData: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
+  SpinButton: {fileID: 5536746808119200955}
+  wheelTransform: {fileID: 6640184230283435731}
+  minSpinTime: 1
+  maxSpinTime: 3
+  clockwise: 1
 --- !u!1 &6278512000758049274
 GameObject:
   m_ObjectHideFlags: 0

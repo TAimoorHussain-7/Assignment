@@ -383,13 +383,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 359125538, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: SpData
-      value: 
-      objectReference: {fileID: 11400000, guid: 19dad0b99a4fb014d9922767319e0ca2, type: 2}
-    - target: {fileID: 359125538, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
-      propertyPath: NumberOfSegments
-      value: 8
+    - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
+      propertyPath: maxSpinTime
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072199081, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
+      propertyPath: minSpinTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4030740918383676048, guid: efc696c0603ac0346a31fe53da3ac738, type: 3}
       propertyPath: m_Pivot.x
