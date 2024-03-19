@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 public class SpinWheelAnimation : SpinWheel
 {
+    [SerializeField] RotateMode rm;
     [SerializeField] Button SpinButton;
     [SerializeField] Transform wheelTransform;
     [SerializeField] Transform wheelParent;
@@ -19,7 +20,8 @@ public class SpinWheelAnimation : SpinWheel
     [SerializeField] SpinAnimtionSo SpinAnimation;
 
     private Tween wheelTween;
-    private Coroutine ResetRotine, RotateRotine;
+    private Coroutine ResetRotine;
+    int RandomInd = -1;
 
     private void OnEnable()
     {
@@ -40,37 +42,90 @@ public class SpinWheelAnimation : SpinWheel
         {
             IsSpining = true;
             SpinButton.interactable = false;
-            int randomInd = SelectRandomIndex();
-            float targetAngle = 360 - (degreePerSegment * randomInd); 
-            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
+            RandomInd = SelectRandomIndex();
+            float targetAngle = 360 - (degreePerSegment * RandomInd); 
             int currentSpeed = (int)Mathf.Round(SpinAnimation.SpinSpeed);
-            targetAngle += (360*currentSpeed);
-            RotateRotine = StartCoroutine(RotateSpinNow(targetAngle, spinTime, randomInd));
+            targetAngle = SpinAnimation.clockwise ? targetAngle -(360 * currentSpeed) : targetAngle + (360 * currentSpeed);
+            switch (SpinAnimation.CurrentRotateType)
+            {
+                case RotateType.Normal:
+                    float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
+                    NormalSpin(targetAngle,spinTime);
+                    break;
+
+                case RotateType.StartFast:
+                    StartFast(targetAngle);
+                    break;
+
+                case RotateType.StartSlow:
+                    StartSlowly(targetAngle);
+                    break;
+            }
         }
     }
 
-    private IEnumerator RotateSpinNow(float targetAngle,float rotationTime, int randomInd)
+    private void NormalSpin(float targetAngle, float spinTime)
     {
-        float totalRotation = SpinAnimation.clockwise ? 0 - targetAngle : targetAngle - 0;
-        float step = totalRotation / rotationTime;
+        wheelTransform.DORotate(new Vector3(0, 0, targetAngle), spinTime, RotateMode.FastBeyond360).SetEase(SpinAnimation.SpinEase).OnComplete(() => {
+            Invoke(nameof(SendRewardValue),1);
+        });
+    }
 
-        float elapsedTime = 0f;
+    private void StartFast(float targetAngle)
+    {
+        float segmentAngle = targetAngle / 4f;
+        wheelTransform.DORotate(new Vector3(0, 0, segmentAngle * 3), SpinAnimation.fastDuration, RotateMode.FastBeyond360)
+            .SetEase(SpinAnimation.SpinEase)
+            .OnComplete(() => {
+                wheelTransform.DORotate(new Vector3(0, 0, targetAngle), SpinAnimation.fastDuration/2)
+                    .SetEase(SpinAnimation.SpinEase)
+                    .OnUpdate(() => {
+                        float currentSpeed = Mathf.Lerp(SpinAnimation.fastDuration, SpinAnimation.fastDuration / 2, 0.01f);
+                        wheelTransform.Rotate(Vector3.forward, segmentAngle * Time.deltaTime / currentSpeed);
+                    })
+                    .OnComplete(() => {
+                        Invoke(nameof(SendRewardValue), 1);
+                    });
+            });
+    }
 
-        while (elapsedTime < rotationTime)
-        {
-            wheelTransform.Rotate(Vector3.forward, step * Time.deltaTime);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+    private void StartSlowly(float targetAngle)
+    {
+        float segmentAngle = targetAngle / 4f;
+        Sequence rotationSequence = DOTween.Sequence();
+        rotationSequence.Append(wheelTransform.DORotate(new Vector3(0, 0, segmentAngle), SpinAnimation.fastDuration / 2)
+            .SetEase(Ease.OutQuad)
+            .OnUpdate(() => {
+                // Calculate the current angle based on the progress
+                float currentAngle = Mathf.Lerp(0, segmentAngle, rotationSequence.ElapsedPercentage());
+                wheelTransform.rotation = Quaternion.Euler(0, 0, currentAngle);
+            })
+           .OnComplete(() =>
+             {
+                 wheelTransform.DORotate(new Vector3(0, 0, segmentAngle * 3), SpinAnimation.fastDuration, RotateMode.FastBeyond360)
+            .SetEase(SpinAnimation.SpinEase)
+            .OnComplete(() =>
+            {
+                wheelTransform.DORotate(new Vector3(0, 0, targetAngle), SpinAnimation.fastDuration / 2)
+                    .SetEase(Ease.OutQuad)
+                    .OnUpdate(() =>
+                    {
+                        float currentAngle = Mathf.Lerp(0, segmentAngle, rotationSequence.ElapsedPercentage());
+                        wheelTransform.rotation = Quaternion.Euler(0, 0, currentAngle);
+                    })
+                    .OnComplete(() =>
+                    {
+                        Invoke(nameof(SendRewardValue), 1);
+                    });
+            });
 
-        wheelTransform.rotation = Quaternion.Euler(0f, 0f, targetAngle);
-        RewardMultiplier = SpData.SpData.rewards[randomInd].multiplier;
+             }));
+    }
+
+    private void SendRewardValue()
+    {
+        RewardMultiplier = SpData.SpData.rewards[RandomInd].multiplier;
         SpinRewardEvent.Invoke();
-
-        if (RotateRotine != null)
-        {
-            StopCoroutine(RotateRotine);
-        }
     }
 
     public int SelectRandomIndex()
