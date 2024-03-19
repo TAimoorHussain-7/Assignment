@@ -79,8 +79,6 @@ public class SpinController : SpinWheel
 
     private void CalculateReward()
     {
-        Debug.Log(RewardMultiplier);
-
         int rewardAmount = SpData.SpData.coins * RewardMultiplier;
         SpintMultiplierText.text = "X" + RewardMultiplier.ToString();
         SpinRewardText.text = rewardAmount.ToString();

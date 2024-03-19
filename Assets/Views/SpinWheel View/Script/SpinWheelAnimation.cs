@@ -19,8 +19,7 @@ public class SpinWheelAnimation : SpinWheel
     [SerializeField] SpinAnimtionSo SpinAnimation;
 
     private Tween wheelTween;
-    private Coroutine ResetRotine; 
-    private int SpinDirection;
+    private Coroutine ResetRotine, RotateRotine;
 
     private void OnEnable()
     {
@@ -42,44 +41,36 @@ public class SpinWheelAnimation : SpinWheel
             IsSpining = true;
             SpinButton.interactable = false;
             int randomInd = SelectRandomIndex();
-            float targetRotation =360 - (degreePerSegment * randomInd);
-
-            if (SpinAnimation.clockwise)
-            {
-                targetRotation = NormalizeAngleClockwise(targetRotation);
-                SpinDirection = 1;
-            }
-            else if (!SpinAnimation.clockwise)
-            {
-                targetRotation = NormalizeAngleCounterclockwise(targetRotation);
-                SpinDirection = -1;
-            }
-            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime)/ SpinAnimation.SpinSpeed;
-            
-
-            wheelTransform.DORotate(new Vector3(0f, 0f, targetRotation*SpinDirection), spinTime, RotateMode.LocalAxisAdd).OnComplete(() =>
-                         {
-                             RewardMultiplier = SpData.SpData.rewards[randomInd].multiplier;
-                             SpinRewardEvent.Invoke();
-                         });
+            float targetAngle = 360 - (degreePerSegment * randomInd); 
+            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
+            int currentSpeed = (int)Mathf.Round(SpinAnimation.SpinSpeed);
+            targetAngle += (360*currentSpeed);
+            RotateRotine = StartCoroutine(RotateSpinNow(targetAngle, spinTime, randomInd));
         }
     }
-    float NormalizeAngleClockwise(float angle)
-    {
-        while (angle > wheelTransform.rotation.z)
-        {
-            angle -= 360;
-        }
-        return angle;
-    }
 
-    float NormalizeAngleCounterclockwise(float angle)
+    private IEnumerator RotateSpinNow(float targetAngle,float rotationTime, int randomInd)
     {
-        while (angle < wheelTransform.rotation.z)
+        float totalRotation = SpinAnimation.clockwise ? 0 - targetAngle : targetAngle - 0;
+        float step = totalRotation / rotationTime;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < rotationTime)
         {
-            angle += 360;
+            wheelTransform.Rotate(Vector3.forward, step * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
-        return angle;
+
+        wheelTransform.rotation = Quaternion.Euler(0f, 0f, targetAngle);
+        RewardMultiplier = SpData.SpData.rewards[randomInd].multiplier;
+        SpinRewardEvent.Invoke();
+
+        if (RotateRotine != null)
+        {
+            StopCoroutine(RotateRotine);
+        }
     }
 
     public int SelectRandomIndex()
@@ -141,6 +132,7 @@ public class SpinWheelAnimation : SpinWheel
                 SpinButton.interactable = true;
             });
             ShuffleEvent.Invoke();
+            wheelTransform.rotation = Quaternion.Euler(Vector3.zero);
         }
         else
         {
