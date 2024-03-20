@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpinWheeAnimation
   m_EditorClassIdentifier: 
   SpinRounds: 10
-  clockwise: 0
-  SpinEase: 3
+  clockwise: 1
+  SpinEase: 9
   minSpinTime: 5
   maxSpinTime: 10
