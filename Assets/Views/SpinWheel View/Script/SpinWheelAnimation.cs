@@ -44,88 +44,13 @@ public class SpinWheelAnimation : SpinWheel
             SpinButton.interactable = false;
             RandomInd = SelectRandomIndex();
             float targetAngle = 360 - (degreePerSegment * RandomInd); 
-            int currentSpeed = (int)Mathf.Round(SpinAnimation.SpinSpeed);
-            targetAngle = SpinAnimation.clockwise ? targetAngle -(360 * currentSpeed) : targetAngle + (360 * currentSpeed);
-            switch (SpinAnimation.CurrentRotateType)
-            {
-                case RotateType.Normal:
-                    float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
-                    NormalSpin(targetAngle,spinTime);
-                    break;
-
-                case RotateType.StartFast:
-                    StartFast(targetAngle);
-                    break;
-
-                case RotateType.StartSlow:
-                    StartSlowly(targetAngle);
-                    break;
-            }
+            targetAngle = SpinAnimation.clockwise ? targetAngle -(360 * SpinAnimation.SpinRounds) : targetAngle + (360 * SpinAnimation.SpinRounds);
+            float spinTime = Random.Range(SpinAnimation.minSpinTime, SpinAnimation.maxSpinTime);
+            wheelTransform.DORotate(new Vector3(0, 0, targetAngle), spinTime, RotateMode.FastBeyond360).SetEase(SpinAnimation.SpinEase).OnComplete(() => {
+                RewardMultiplier = SpData.SpData.rewards[RandomInd].multiplier;
+                SpinRewardEvent.Invoke();
+            });
         }
-    }
-
-    private void NormalSpin(float targetAngle, float spinTime)
-    {
-        wheelTransform.DORotate(new Vector3(0, 0, targetAngle), spinTime, RotateMode.FastBeyond360).SetEase(SpinAnimation.SpinEase).OnComplete(() => {
-            Invoke(nameof(SendRewardValue),1);
-        });
-    }
-
-    private void StartFast(float targetAngle)
-    {
-        float segmentAngle = targetAngle / 4f;
-        wheelTransform.DORotate(new Vector3(0, 0, segmentAngle * 3), SpinAnimation.fastDuration, RotateMode.FastBeyond360)
-            .SetEase(SpinAnimation.SpinEase)
-            .OnComplete(() => {
-                wheelTransform.DORotate(new Vector3(0, 0, targetAngle), SpinAnimation.fastDuration/2)
-                    .SetEase(SpinAnimation.SpinEase)
-                    .OnUpdate(() => {
-                        float currentSpeed = Mathf.Lerp(SpinAnimation.fastDuration, SpinAnimation.fastDuration / 2, 0.01f);
-                        wheelTransform.Rotate(Vector3.forward, segmentAngle * Time.deltaTime / currentSpeed);
-                    })
-                    .OnComplete(() => {
-                        Invoke(nameof(SendRewardValue), 1);
-                    });
-            });
-    }
-
-    private void StartSlowly(float targetAngle)
-    {
-        float segmentAngle = targetAngle / 4f;
-        Sequence rotationSequence = DOTween.Sequence();
-        rotationSequence.Append(wheelTransform.DORotate(new Vector3(0, 0, segmentAngle), SpinAnimation.fastDuration / 2)
-            .SetEase(Ease.OutQuad)
-            .OnUpdate(() => {
-                // Calculate the current angle based on the progress
-                float currentAngle = Mathf.Lerp(0, segmentAngle, rotationSequence.ElapsedPercentage());
-                wheelTransform.rotation = Quaternion.Euler(0, 0, currentAngle);
-            })
-           .OnComplete(() =>
-             {
-                 wheelTransform.DORotate(new Vector3(0, 0, segmentAngle * 3), SpinAnimation.fastDuration, RotateMode.FastBeyond360)
-            .SetEase(SpinAnimation.SpinEase)
-            .OnComplete(() =>
-            {
-                wheelTransform.DORotate(new Vector3(0, 0, targetAngle), SpinAnimation.fastDuration / 2)
-                    .SetEase(Ease.OutQuad)
-                    .OnUpdate(() =>
-                    {
-                        float currentAngle = Mathf.Lerp(0, segmentAngle, rotationSequence.ElapsedPercentage());
-                        wheelTransform.rotation = Quaternion.Euler(0, 0, currentAngle);
-                    })
-                    .OnComplete(() =>
-                    {
-                        Invoke(nameof(SendRewardValue), 1);
-                    });
-            });
-
-             }));
-    }
-
-    private void SendRewardValue()
-    {
-        RewardMultiplier = SpData.SpData.rewards[RandomInd].multiplier;
-        SpinRewardEvent.Invoke();
     }
 
     public int SelectRandomIndex()

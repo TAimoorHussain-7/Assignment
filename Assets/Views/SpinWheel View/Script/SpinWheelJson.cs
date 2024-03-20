@@ -39,11 +39,4 @@ namespace ProjectCore.Variables
         public float probability;
         public string color;
     }
-
-    public enum RotateType
-    {
-        Normal,
-        StartFast,
-        StartSlow
-    }
 }

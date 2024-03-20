@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927f173aa9b5bc8439e466ec2127eb45, type: 3}
   m_Name: SpinWheeAnimation
   m_EditorClassIdentifier: 
-  SpinSpeed: 10
-  clockwise: 1
-  SpinEase: 1
-  CurrentRotateType: 2
-  fastDuration: 5
-  minSpinTime: 3
+  SpinRounds: 10
+  clockwise: 0
+  SpinEase: 3
+  minSpinTime: 5
   maxSpinTime: 10
