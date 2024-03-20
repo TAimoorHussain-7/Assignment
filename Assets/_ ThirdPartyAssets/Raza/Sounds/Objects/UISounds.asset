@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086a043f3a4574c81b1e837d157bfd17, type: 3}
+  m_Name: UISounds
+  m_EditorClassIdentifier: 
+  audioPlayer: {fileID: 7845755221239959377, guid: d9fb6197f1a2a42ce9a01adc49b18ae3, type: 3}
+  ButtonClickClip: {fileID: 8300000, guid: ee9d14b61502b44e3967f5ae8769450a, type: 3}
+  CloseUIViewClip: {fileID: 8300000, guid: d2448f29a24c545489fcfcc51aea7aeb, type: 3}
+  DressUpClickClip: {fileID: 8300000, guid: 040f83a0a4f16084f9819d3dcef5cb2c, type: 3}
+  DoorBell: {fileID: 8300000, guid: 9d35f4f5b776d0f4eb6978f87872dd42, type: 3}
